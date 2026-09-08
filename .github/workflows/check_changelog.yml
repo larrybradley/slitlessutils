@@ -8,13 +8,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  pull-requests: read
+
 jobs:
   changelog_checker:
     name: Check if change log entry is correct
     runs-on: ubuntu-latest
+    if: github.repository == 'spacetelescope/slitlessutils'
     steps:
-      - name: Check change log entry
-        uses: scientific-python/action-check-changelogfile@92735146b118b1dd2951cb4a45d60c2d8b47a153 # 0.5
+      - uses: scientific-python/action-check-changelogfile@92735146b118b1dd2951cb4a45d60c2d8b47a153 # 0.5
         env:
           CHANGELOG_FILENAME: CHANGES.rst
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
